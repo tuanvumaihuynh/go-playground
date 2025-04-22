@@ -1,0 +1,16 @@
+ErrorResponse:
+  type: object
+  properties:
+    code:
+      type: string
+      description: custom raybot error code
+      example: "item.NotFound"
+      x-order: 1
+    message:
+      type: string
+      description: custom error message
+      example: "Item not found"
+      x-order: 2
+  required:
+    - code
+    - message

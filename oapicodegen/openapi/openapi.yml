@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: My API
+  description: >-
+    My API
+  license:
+    url: https://opensource.org/licenses/MIT
+    name: MIT
+servers:
+  - url: /api/v1
+security: []
+paths:
+  /users:
+    $ref: "paths/users.yml"
+  /users/{userId}:
+    $ref: "paths/users@{userId}.yml"

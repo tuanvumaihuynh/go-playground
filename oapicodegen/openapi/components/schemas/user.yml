@@ -1,0 +1,64 @@
+UserResponse:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: The unique identifier for the user.
+      x-order: 1
+    username:
+      type: string
+      description: The username of the user.
+      x-order: 2
+    email:
+      type: string
+      description: The email address of the user.
+      x-order: 3
+    createdAt:
+      type: string
+      format: date-time
+      description: The date and time when the user was created.
+      x-order: 4
+    updatedAt:
+      type: string
+      format: date-time
+      description: The date and time when the user was last updated.
+      x-order: 5
+  required:
+    - id
+    - username
+    - email
+    - createdAt
+    - updatedAt
+
+UserListResponse:
+  type: object
+  properties:
+    items:
+      type: array
+      items:
+        $ref: '#/UserResponse'
+      x-order: 1
+    totalItems:
+      type: integer
+      format: int32
+      description: The total number of users.
+      x-order: 2
+  required:
+    - items
+    - totalItems
+
+CreateUserRequest:
+  type: object
+  properties:
+    username:
+      type: string
+      description: The username of the user.
+      x-order: 1
+    email:
+      type: string
+      format: email
+      description: The email address of the user.
+      x-order: 2
+  required:
+    - username
+    - email

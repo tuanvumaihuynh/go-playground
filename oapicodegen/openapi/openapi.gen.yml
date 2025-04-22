@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: My API
+  description: My API
+  license:
+    url: https://opensource.org/licenses/MIT
+    name: MIT
+servers:
+  - url: /api/v1
+security: []
+paths:
+  /users:
+    get:
+      summary: List all users
+      operationId: listUsers
+      description: Retrieve a list of all users in the system.
+      tags:
+        - users
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        '400':
+          description: Bad request. Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a new user
+      operationId: createUser
+      description: Create a new user in the system.
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request. Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{userId}:
+    get:
+      summary: Get user by id
+      operationId: getUserById
+      description: Retrieve a user by their unique identifier.
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: The unique identifier for the user.
+      responses:
+        '200':
+          description: User found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the user.
+          x-order: 1
+        username:
+          type: string
+          description: The username of the user.
+          x-order: 2
+        email:
+          type: string
+          description: The email address of the user.
+          x-order: 3
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the user was created.
+          x-order: 4
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date and time when the user was last updated.
+          x-order: 5
+      required:
+        - id
+        - username
+        - email
+        - createdAt
+        - updatedAt
+    UserListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+          x-order: 1
+        totalItems:
+          type: integer
+          format: int32
+          description: The total number of users.
+          x-order: 2
+      required:
+        - items
+        - totalItems
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: custom raybot error code
+          example: item.NotFound
+          x-order: 1
+        message:
+          type: string
+          description: custom error message
+          example: Item not found
+          x-order: 2
+      required:
+        - code
+        - message
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the user.
+          x-order: 1
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+          x-order: 2
+      required:
+        - username
+        - email
